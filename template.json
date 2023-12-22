@@ -9,62 +9,59 @@
     }
   },
   "parameters": {
-    "webAppName": {
+    "storageAccountType": {
       "type": "string",
+      "defaultValue": "Standard_LRS",
+      "allowedValues": [
+        "Premium_LRS",
+        "Premium_ZRS",
+        "Standard_GRS",
+        "Standard_GZRS",
+        "Standard_LRS",
+        "Standard_RAGRS",
+        "Standard_RAGZRS",
+        "Standard_ZRS"
+      ],
       "metadata": {
-        "description": "Nombre de la aplicación web"
+        "description": "Storage Account type"
       }
     },
     "location": {
       "type": "string",
-      "defaultValue": "East US",
+      "defaultValue": "[resourceGroup().location]",
       "metadata": {
-        "description": "Región de Azure"
+        "description": "The storage account location."
       }
     },
-    "appServicePlanName": {
+    "storageAccountName": {
       "type": "string",
+      "defaultValue": "[format('store{0}', uniqueString(resourceGroup().id))]",
       "metadata": {
-        "description": "Nombre del plan de servicio de aplicación"
-      }
-    },
-    "repoUrl": {
-      "type": "string",
-      "metadata": {
-        "description": "URL del repositorio de GitHub"
-      }
-    },
-    "branch": {
-      "type": "string",
-      "metadata": {
-        "description": "Rama de GitHub"
+        "description": "The name of the storage account"
       }
     }
   },
   "resources": [
     {
-      "type": "Microsoft.Web/sites",
-      "apiVersion": "2018-11-01",
-      "name": "[parameters('webAppName')]",
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2022-09-01",
+      "name": "[parameters('storageAccountName')]",
       "location": "[parameters('location')]",
-      "properties": {
-        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
+      "sku": {
+        "name": "[parameters('storageAccountType')]"
       },
-      "resources": [
-        {
-          "type": "sourcecontrols",
-          "apiVersion": "2019-08-01",
-          "name": "[concat('web', parameters('webAppName'), 'sourcecontrols')]",
-          "dependsOn": [
-            "[resourceId('Microsoft.Web/sites', parameters('webAppName'))]"
-          ],
-          "properties": {
-            "repoUrl": "[parameters('repoUrl')]",
-            "branch": "[parameters('branch')]",
-            "IsManualIntegration": true
-          }
-        }
-      ]
+      "kind": "StorageV2",
+      "properties": {}
     }
-  ]
+  ],
+  "outputs": {
+    "storageAccountName": {
+      "type": "string",
+      "value": "[parameters('storageAccountName')]"
+    },
+    "storageAccountId": {
+      "type": "string",
+      "value": "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
+    }
+  }
 }
