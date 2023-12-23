@@ -23,25 +23,12 @@
             "type": "Microsoft.Web/sites",
             "apiVersion": "2023-01-01",
             "name": "[parameters('webAppName')]",
-            "location": "France Central",
             "kind": "app",
             "identity": {
                 "type": "SystemAssigned"
             },
             "properties": {
                 "enabled": true,
-                "hostNameSslStates": [
-                    {
-                        "name": "pruebaddns.azurewebsites.net",
-                        "sslState": "Disabled",
-                        "hostType": "Standard"
-                    },
-                    {
-                        "name": "pruebaddns.scm.azurewebsites.net",
-                        "sslState": "Disabled",
-                        "hostType": "Repository"
-                    }
-                ],
                 "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('serverFarmName'))]",
                 "reserved": false,
                 "isXenon": false,
@@ -74,132 +61,29 @@
             ]
         },
         {
-            "type": "Microsoft.Web/sites/basicPublishingCredentialsPolicies",
+            "type": "Microsoft.Web/serverfarms",
             "apiVersion": "2023-01-01",
-            "name": "[concat(parameters('sites_PruebaDdns_name'), '/ftp')]",
-            "location": "France Central",
-            "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('sites_PruebaDdns_name'))]"
-            ],
+            "name": "[parameters('serverFarmName')]",
+            "sku": {
+                "name": "F1",
+                "tier": "Free",
+                "size": "F1",
+                "family": "F",
+                "capacity": 0
+            },
+            "kind": "app",
             "properties": {
-                "allow": true
+                "perSiteScaling": false,
+                "elasticScaleEnabled": false,
+                "maximumElasticWorkerCount": 1,
+                "isSpot": false,
+                "reserved": false,
+                "isXenon": false,
+                "hyperV": false,
+                "targetWorkerCount": 0,
+                "targetWorkerSizeId": 0,
+                "zoneRedundant": false
             }
-        },
-        {
-            "type": "Microsoft.Web/sites/basicPublishingCredentialsPolicies",
-            "apiVersion": "2023-01-01",
-            "name": "[concat(parameters('sites_PruebaDdns_name'), '/scm')]",
-            "location": "France Central",
-            "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('sites_PruebaDdns_name'))]"
-            ],
-            "properties": {
-                "allow": true
-            }
-        },
-        {
-            "type": "Microsoft.Web/sites/config",
-            "apiVersion": "2023-01-01",
-            "name": "[concat(parameters('sites_PruebaDdns_name'), '/web')]",
-            "location": "France Central",
-            "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('sites_PruebaDdns_name'))]"
-            ],
-            "properties": {
-                "numberOfWorkers": 1,
-                "defaultDocuments": [
-                    "Default.htm",
-                    "Default.html",
-                    "Default.asp",
-                    "index.htm",
-                    "index.html",
-                    "iisstart.htm",
-                    "default.aspx",
-                    "index.php",
-                    "hostingstart.html"
-                ],
-                "netFrameworkVersion": "v7.0",
-                "phpVersion": "5.6",
-                "requestTracingEnabled": false,
-                "remoteDebuggingEnabled": false,
-                "remoteDebuggingVersion": "VS2019",
-                "httpLoggingEnabled": false,
-                "acrUseManagedIdentityCreds": false,
-                "logsDirectorySizeLimit": 35,
-                "detailedErrorLoggingEnabled": false,
-                "publishingUsername": "$PruebaDdns",
-                "scmType": "None",
-                "use32BitWorkerProcess": true,
-                "webSocketsEnabled": false,
-                "alwaysOn": false,
-                "managedPipelineMode": "Integrated",
-                "virtualApplications": [
-                    {
-                        "virtualPath": "/",
-                        "physicalPath": "site\\wwwroot",
-                        "preloadEnabled": false
-                    }
-                ],
-                "loadBalancing": "LeastRequests",
-                "experiments": {
-                    "rampUpRules": []
-                },
-                "autoHealEnabled": false,
-                "vnetRouteAllEnabled": false,
-                "vnetPrivatePortsCount": 0,
-                "localMySqlEnabled": false,
-                "managedServiceIdentityId": 14397,
-                "ipSecurityRestrictions": [
-                    {
-                        "ipAddress": "Any",
-                        "action": "Allow",
-                        "priority": 2147483647,
-                        "name": "Allow all",
-                        "description": "Allow all access"
-                    }
-                ],
-                "scmIpSecurityRestrictions": [
-                    {
-                        "ipAddress": "Any",
-                        "action": "Allow",
-                        "priority": 2147483647,
-                        "name": "Allow all",
-                        "description": "Allow all access"
-                    }
-                ],
-                "scmIpSecurityRestrictionsUseMain": false,
-                "http20Enabled": false,
-                "minTlsVersion": "1.2",
-                "scmMinTlsVersion": "1.2",
-                "ftpsState": "FtpsOnly",
-                "preWarmedInstanceCount": 0,
-                "elasticWebAppScaleLimit": 0,
-                "functionsRuntimeScaleMonitoringEnabled": false,
-                "minimumElasticInstanceCount": 0,
-                "azureStorageAccounts": {}
-            }
-        },
-        {
-            "type": "Microsoft.Web/sites/hostNameBindings",
-            "apiVersion": "2023-01-01",
-            "name": "[concat(parameters('sites_PruebaDdns_name'), '/', parameters('sites_PruebaDdns_name'), '.azurewebsites.net')]",
-            "location": "France Central",
-            "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('sites_PruebaDdns_name'))]"
-            ],
-            "properties": {
-                "siteName": "PruebaDdns",
-                "hostNameType": "Verified"
-            }
-        },
-        {
-            "type": "Microsoft.Web/sites/siteextensions",
-            "apiVersion": "2023-01-01",
-            "name": "[concat(parameters('sites_PruebaDdns_name'), '/Microsoft.AspNetCore.AzureAppServices.SiteExtension')]",
-            "location": "France Central",
-            "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('sites_PruebaDdns_name'))]"
-            ]
         }
     ]
 }
