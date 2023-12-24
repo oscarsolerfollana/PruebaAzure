@@ -137,7 +137,7 @@
         {
           "type": "Microsoft.Authorization/roleAssignments",
           "apiVersion": "2022-04-01",
-          "name": "[guid(resourceGroup().id, 'RoleAssignmentForDdnsKeyValut')]",
+          "name": "['RoleAssignmentForDdnsKeyValut']",
           "scope": "[resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName'))]",
           "dependsOn": [
             "[resourceId('Microsoft.Web/sites', parameters('webAppName'))]",
@@ -160,7 +160,7 @@
         {
           "type": "Microsoft.Authorization/roleAssignments",
           "apiVersion": "2022-04-01",
-          "name": "[concat(parameters('dnsZoneName'), '/providers/Microsoft.Authorization/roleAssignments/RoleAssignmentForDdnsZone')]",
+          "name": "['RoleAssignmentForDdnsZone']",
           "scope": "[resourceId('Microsoft.Network/dnszones', parameters('dnsZoneName'))]",
           "dependsOn": [
             "[resourceId('Microsoft.Web/sites', parameters('webAppName'))]",
