@@ -137,7 +137,7 @@
             "[resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName'))]"
           ],
           "properties": {
-            "roleDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/roleDefinitions/b86a8fe4-44ce-4948-aee5-eccb2c155cd7")]", // ID del rol de Agente de secretos de Key Vault
+            "roleDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/roleDefinitions/b86a8fe4-44ce-4948-aee5-eccb2c155cd7')]", // ID del rol de Agente de secretos de Key Vault
             "principalId": "[reference(concat('Microsoft.Web/sites', '/', parameters('webAppName')), '2023-01-01', 'Full').identity.principalId]"
             
           }
