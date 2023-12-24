@@ -137,7 +137,7 @@
         {
           "type": "Microsoft.Authorization/roleAssignments",
           "apiVersion": "2022-04-01",
-          "name": "[concat(parameters('keyVaultName'), '/providers/Microsoft.Authorization/roleAssignments/RoleAssignmentForDdnsKeyValut')]",
+          "name": "[guid(resourceGroup().id, 'RoleAssignmentForDdnsKeyValut')]",
           "scope": "[resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName'))]",
           "dependsOn": [
             "[resourceId('Microsoft.Web/sites', parameters('webAppName'))]",
