@@ -22,6 +22,13 @@
             "metadata": {
               "description": "Name of the KeyVault"
             }
+        },
+        "dnsZoneName": {
+            "defaultValue": "ddnsZone",
+            "type": "String",
+            "metadata": {
+              "description": "Name of the DNS Zone"
+            }
         } 
     },
     "variables": {},
@@ -130,7 +137,7 @@
         {
           "type": "Microsoft.Authorization/roleAssignments",
           "apiVersion": "2022-04-01",
-          "name": "[concat('nombre-de-tu-keyvault/', 'RoleAssignmentForDdnsWebApp')]",
+          "name": "[concat(parameters('keyVaultName'), '/', 'RoleAssignmentForDdnsZone')]",
           "scope": "[resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName'))]",
           "dependsOn": [
             "[resourceId('Microsoft.Web/sites', parameters('webAppName'))]",
@@ -139,7 +146,29 @@
           "properties": {
             "roleDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/roleDefinitions/b86a8fe4-44ce-4948-aee5-eccb2c155cd7')]", // ID del rol de Agente de secretos de Key Vault
             "principalId": "[reference(concat('Microsoft.Web/sites', '/', parameters('webAppName')), '2023-01-01', 'Full').identity.principalId]"
-            
+          }
+        },
+        {
+            "type": "Microsoft.Network/dnszones",
+            "apiVersion": "2018-05-01",
+            "name": "[parameters('dnsZoneName')]",
+            "location": "global",
+            "properties": {
+                "zoneType": "Public"
+            }
+        },
+        {
+          "type": "Microsoft.Authorization/roleAssignments",
+          "apiVersion": "2022-04-01",
+          "name": "[concat(parameters('dnsZoneName'), '/', 'RoleAssignmentForDdnsWebApp')]",
+          "scope": "[resourceId('Microsoft.Network/dnszones', parameters('dnsZoneName'))]",
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/sites', parameters('webAppName'))]",
+            "[resourceId('Microsoft.Network/dnszones', parameters('dnsZoneName'))]"
+          ],
+          "properties": {
+            "roleDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/roleDefinitions/befefa01-2a29-4197-83a8-272ff33ce314')]", // ID del rol de Colaborador de zona DNS
+            "principalId": "[reference(concat('Microsoft.Web/sites', '/', parameters('webAppName')), '2023-01-01', 'Full').identity.principalId]"
           }
         }
     ]
