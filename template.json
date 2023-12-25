@@ -2,13 +2,6 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "region": {
-            "defaultValue": "France Central",
-            "type": "String",
-            "metadata": {
-              "description": "Region"
-            }
-        },
         "webAppName": {
             "defaultValue": "dnsWebApp",
             "type": "String",
@@ -112,7 +105,7 @@
         {
             "type": "Microsoft.KeyVault/vaults",
             "apiVersion": "2023-07-01",
-            "location": "[parameters('region')]",
+            "location": "[parameters('región')]",
             "name": "[parameters('keyVaultName')]",
             "properties": {
                 "sku": {
