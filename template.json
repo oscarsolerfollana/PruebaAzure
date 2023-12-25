@@ -108,13 +108,12 @@
             "type": "Microsoft.KeyVault/vaults",
             "apiVersion": "2023-07-01",
             "location": "[resourceGroup().location]",
-            "name": "[concat(parameters('keyVaultName'), uniqueString(resourceGroup().id))]",
+            "name": "fasdfjhuegjf",
             "properties": {
                 "sku": {
                     "family": "A",
                     "name": "Standard"
                 },
-                "tenantId": "[subscription().tenantId]",
                 "accessPolicies": [],
                 "enabledForDeployment": false,
                 "enabledForDiskEncryption": false,
