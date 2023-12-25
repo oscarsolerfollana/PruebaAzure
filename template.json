@@ -83,7 +83,7 @@
               "[resourceId('Microsoft.Web/serverfarms', parameters('serverFarmName'))]"
             ]
         }
-        /*,
+        ,
         {
             "type": "Microsoft.Web/serverfarms",
             "apiVersion": "2023-01-01",
@@ -112,6 +112,7 @@
         {
             "type": "Microsoft.KeyVault/vaults",
             "apiVersion": "2023-07-01",
+            "location": "[parameters('region')]",
             "name": "[parameters('keyVaultName')]",
             "properties": {
                 "sku": {
@@ -178,6 +179,6 @@
             "roleDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/roleDefinitions/befefa01-2a29-4197-83a8-272ff33ce314')]", // ID del rol de Colaborador de zona DNS
             "principalId": "[reference(concat('Microsoft.Web/sites', '/', parameters('webAppName')), '2023-01-01', 'Full').identity.principalId]"
           }
-        }*/
+        }
     ]
 }
