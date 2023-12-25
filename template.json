@@ -81,6 +81,7 @@
             "type": "Microsoft.Web/serverfarms",
             "apiVersion": "2023-01-01",
             "name": "[parameters('serverFarmName')]",
+            "location": "[resourceGroup().location]",
             "sku": {
                 "name": "F1",
                 "tier": "Free",
@@ -112,6 +113,7 @@
                     "family": "A",
                     "name": "Standard"
                 },
+                "tenantId": "[subscription().tenantId]",
                 "accessPolicies": [],
                 "enabledForDeployment": false,
                 "enabledForDiskEncryption": false,
