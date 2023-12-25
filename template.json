@@ -36,7 +36,7 @@
         {
             "type": "Microsoft.Web/sites",
             "apiVersion": "2023-01-01",
-            "name": "[parameters('webAppName')]",
+            "name": "[concat(parameters('webAppName'), uniqueString(resourceGroup().id))]",
             "location": "[resourceGroup().location]",
             "kind": "app",
             "identity": {
@@ -108,7 +108,7 @@
             "type": "Microsoft.KeyVault/vaults",
             "apiVersion": "2023-07-01",
             "location": "[resourceGroup().location]",
-            "name": "[parameters('keyVaultName')]",
+            "name": "[concat(parameters('keyVaultName'), uniqueString(resourceGroup().id))]",
             "properties": {
                 "sku": {
                     "family": "A",
