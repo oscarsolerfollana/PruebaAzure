@@ -2,10 +2,10 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "variables": {
-        "webAppName": "[concat('webAppName', '_', uniqueString(resourceGroup().id))]",
-        "keyVaultName": "[concat('ddnsWebApp', '_', uniqueString(resourceGroup().id))]",
+        "webAppName": "[concat('ddnsWebApp', '_', uniqueString(resourceGroup().id))]",
+        "keyVaultName": "[concat('ddnskeyVault', '_', uniqueString(resourceGroup().id))]",
         "dnsZoneName": "[concat('ddnsZone', '_', uniqueString(resourceGroup().id))]",
-        "serverFarmName": "[concat('ddnsZone', '_', uniqueString(resourceGroup().id))]"
+        "serverFarmName": "[concat('ddnsServerFarm', '_', uniqueString(resourceGroup().id))]"
     },
     "resources": [
         {
