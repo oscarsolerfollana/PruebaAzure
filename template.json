@@ -1,10 +1,15 @@
 {
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
+    "parameters": {
+        "domainName": {
+            "type": "string",
+            "defaultValue": "mydomain.com"
+        }
+    }
     "variables": {
         "webAppName": "[concat('ddnsWebApp', uniqueString(resourceGroup().id))]",
         "keyVaultName": "[concat('ddns', uniqueString(resourceGroup().id), 'a')]",
-        "dnsZoneName": "[concat('ddnsZone', uniqueString(resourceGroup().id))]",
         "serverFarmName": "[concat('ddnsServerFarm', uniqueString(resourceGroup().id))]"
     },
     "resources": [
@@ -131,7 +136,7 @@
         {
             "type": "Microsoft.Network/dnszones",
             "apiVersion": "2018-05-01",
-            "name": "[variables('dnsZoneName')]",
+            "name": "[parameters('domainName')]",
             "location": "global",
             "properties": {
                 "zoneType": "Public"
