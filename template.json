@@ -82,7 +82,7 @@
         {
             "type": "Microsoft.KeyVault/vaults",
             "apiVersion": "2023-07-01",
-            "tenantId": "[subscription().tenantId]"
+            "tenantId": "[subscription().tenantId]",
             "location": "[resourceGroup().location]",
             "name": "[variables('keyVaultName')]",
             "properties": {
