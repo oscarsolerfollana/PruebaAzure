@@ -110,6 +110,9 @@
             "type": "Microsoft.KeyVault/vaults/secrets",
             "apiVersion": "2023-07-01",
             "name": "[concat(variables('keyVaultName'), '/password')]",
+            "properties": {
+                "value": "[newGuid()]"
+            },
             "dependsOn": [
                 "[resourceId('Microsoft.KeyVault/vaults', variables('keyVaultName'))]"
             ],
@@ -122,7 +125,7 @@
         {
           "type": "Microsoft.Authorization/roleAssignments",
           "apiVersion": "2022-04-01",
-          "name": "['RoleAssignmentForDdnsKeyValut']",
+          "name": "[newGuid()]",
           "scope": "[resourceId('Microsoft.KeyVault/vaults', variables('keyVaultName'))]",
           "dependsOn": [
             "[resourceId('Microsoft.Web/sites', variables('webAppName'))]",
@@ -145,7 +148,7 @@
         {
           "type": "Microsoft.Authorization/roleAssignments",
           "apiVersion": "2022-04-01",
-          "name": "['RoleAssignmentForDdnsZone']",
+          "name": "[newGuid()]",
           "scope": "[resourceId('Microsoft.Network/dnszones', parameters('domainName'))]",
           "dependsOn": [
             "[resourceId('Microsoft.Web/sites', variables('webAppName'))]",
