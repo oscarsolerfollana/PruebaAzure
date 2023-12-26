@@ -6,7 +6,7 @@
             "type": "string",
             "defaultValue": "mydomain.com"
         }
-    }
+    },
     "variables": {
         "webAppName": "[concat('ddnsWebApp', uniqueString(resourceGroup().id))]",
         "keyVaultName": "[concat('ddns', uniqueString(resourceGroup().id), 'a')]",
