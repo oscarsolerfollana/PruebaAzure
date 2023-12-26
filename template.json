@@ -19,7 +19,7 @@
             },
             "properties": {
                 "enabled": true,
-                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('serverFarmName')]",
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('serverFarmName'))]",
                 "reserved": false,
                 "isXenon": false,
                 "hyperV": false,
