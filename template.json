@@ -1,42 +1,17 @@
 {
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
-    "parameters": {
-        "webAppName": {
-            "defaultValue": "dnsWebApp",
-            "type": "String",
-            "metadata": {
-              "description": "Name of the App Service Web App"
-            }
-        },
-        "serverFarmName": {
-            "defaultValue": "dnsFarm",
-            "type": "String",
-            "metadata": {
-              "description": "Name of the App Service Plan"
-            }
-        },
-        "keyVaultName": {
-            "defaultValue": "dnsKeyVault",
-            "type": "String",
-            "metadata": {
-              "description": "Name of the KeyVault"
-            }
-        },
-        "dnsZoneName": {
-            "defaultValue": "yourdomain.com",
-            "type": "String",
-            "metadata": {
-              "description": "Name of the DNS Zone"
-            }
-        } 
+    "variables": {
+        "webAppName": "[concat('webAppName', uniqueString(resourceGroup().id))]",
+        "keyVaultName": "[concat('ddnsWebApp', uniqueString(resourceGroup().id))]",
+        "dnsZoneName": "[concat('ddnsZone', uniqueString(resourceGroup().id))]",
+        "serverFarmName": "[concat('ddnsZone', uniqueString(resourceGroup().id))]"
     },
-    "variables": {},
     "resources": [
         {
             "type": "Microsoft.Web/sites",
             "apiVersion": "2023-01-01",
-            "name": "[concat(parameters('webAppName'), uniqueString(resourceGroup().id))]",
+            "name": "[variables('webAppName')]",
             "location": "[resourceGroup().location]",
             "kind": "app",
             "identity": {
@@ -44,7 +19,7 @@
             },
             "properties": {
                 "enabled": true,
-                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('serverFarmName'))]",
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('serverFarmName')]",
                 "reserved": false,
                 "isXenon": false,
                 "hyperV": false,
@@ -74,14 +49,14 @@
                 "storageAccountRequired": false
             },
             "dependsOn": [
-              "[resourceId('Microsoft.Web/serverfarms', parameters('serverFarmName'))]"
+              "[resourceId('Microsoft.Web/serverfarms', variables('serverFarmName'))]"
             ]
         }
         ,
         {
             "type": "Microsoft.Web/serverfarms",
             "apiVersion": "2023-01-01",
-            "name": "[parameters('serverFarmName')]",
+            "name": "[variables('serverFarmName')]",
             "location": "[resourceGroup().location]",
             "sku": {
                 "name": "F1",
@@ -108,7 +83,7 @@
             "type": "Microsoft.KeyVault/vaults",
             "apiVersion": "2023-07-01",
             "location": "[resourceGroup().location]",
-            "name": "fasdfjhuegjf",
+            "name": "[variables('keyVaultName')]",
             "properties": {
                 "sku": {
                     "family": "A",
@@ -128,9 +103,9 @@
         {
             "type": "Microsoft.KeyVault/vaults/secrets",
             "apiVersion": "2023-07-01",
-            "name": "[concat(parameters('keyVaultName'), '/password')]",
+            "name": "[concat(variables('keyVaultName'), '/password')]",
             "dependsOn": [
-                "[resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName'))]"
+                "[resourceId('Microsoft.KeyVault/vaults', variables('keyVaultName'))]"
             ],
             "properties": {
                 "attributes": {
@@ -142,20 +117,20 @@
           "type": "Microsoft.Authorization/roleAssignments",
           "apiVersion": "2022-04-01",
           "name": "['RoleAssignmentForDdnsKeyValut']",
-          "scope": "[resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName'))]",
+          "scope": "[resourceId('Microsoft.KeyVault/vaults', variables('keyVaultName'))]",
           "dependsOn": [
-            "[resourceId('Microsoft.Web/sites', parameters('webAppName'))]",
-            "[resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName'))]"
+            "[resourceId('Microsoft.Web/sites', variables('webAppName'))]",
+            "[resourceId('Microsoft.KeyVault/vaults', variables('keyVaultName'))]"
           ],
           "properties": {
             "roleDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/roleDefinitions/b86a8fe4-44ce-4948-aee5-eccb2c155cd7')]", // ID del rol de Agente de secretos de Key Vault
-            "principalId": "[reference(concat('Microsoft.Web/sites', '/', parameters('webAppName')), '2023-01-01', 'Full').identity.principalId]"
+            "principalId": "[reference(concat('Microsoft.Web/sites', '/', variables('webAppName')), '2023-01-01', 'Full').identity.principalId]"
           }
         },
         {
             "type": "Microsoft.Network/dnszones",
             "apiVersion": "2018-05-01",
-            "name": "[parameters('dnsZoneName')]",
+            "name": "[variables('dnsZoneName')]",
             "location": "global",
             "properties": {
                 "zoneType": "Public"
@@ -165,14 +140,14 @@
           "type": "Microsoft.Authorization/roleAssignments",
           "apiVersion": "2022-04-01",
           "name": "['RoleAssignmentForDdnsZone']",
-          "scope": "[resourceId('Microsoft.Network/dnszones', parameters('dnsZoneName'))]",
+          "scope": "[resourceId('Microsoft.Network/dnszones', variables('dnsZoneName'))]",
           "dependsOn": [
-            "[resourceId('Microsoft.Web/sites', parameters('webAppName'))]",
-            "[resourceId('Microsoft.Network/dnszones', parameters('dnsZoneName'))]"
+            "[resourceId('Microsoft.Web/sites', variables('webAppName'))]",
+            "[resourceId('Microsoft.Network/dnszones', variables('dnsZoneName'))]"
           ],
           "properties": {
             "roleDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/roleDefinitions/befefa01-2a29-4197-83a8-272ff33ce314')]", // ID del rol de Colaborador de zona DNS
-            "principalId": "[reference(concat('Microsoft.Web/sites', '/', parameters('webAppName')), '2023-01-01', 'Full').identity.principalId]"
+            "principalId": "[reference(concat('Microsoft.Web/sites', '/', variables('webAppName')), '2023-01-01', 'Full').identity.principalId]"
           }
         }
     ]
