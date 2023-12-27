@@ -7,10 +7,7 @@
             "defaultValue": "mydomain.com"
         },
         "password": {
-            "type": "secureString",
-            "metadata": {
-                "description": "Write a password for your API."
-            }
+            "type": "secureString"
         }
     },
     "variables": {
