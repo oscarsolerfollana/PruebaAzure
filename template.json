@@ -6,15 +6,14 @@
             "type": "string",
             "defaultValue": "mydomain.com"
         },
-        "buenas":{
-            "type": "string",
-            "defaultValue": "hola"
+        "password":{
+            "type": "secureString"
         }
     },
     "variables": {
-        "webAppName": "[concat('ddnsWebApp', uniqueString(resourceGroup().id))]",
-        "keyVaultName": "[concat('ddns', uniqueString(resourceGroup().id), 'a')]",
-        "serverFarmName": "[concat('ddnsServerFarm', uniqueString(resourceGroup().id))]"
+        "webAppName": "[concat('ddnsWebApp', uniqueString('ddnsWebApp'))]",
+        "keyVaultName": "[concat('ddns', uniqueString('ddnsKeyVault'), 'a')]",
+        "serverFarmName": "[concat('ddnsServerFarm', uniqueString('ddnsServerFarm'))]"
     },
     "resources": [
         {
@@ -114,18 +113,11 @@
             "type": "Microsoft.KeyVault/vaults/secrets",
             "apiVersion": "2023-07-01",
             "name": "[format('{0}/{1}', variables('keyVaultName'), 'password')]",
-            "properties": {
-                "value": {
-                    "value": "BUENAS!!1234",
-                    "attributes": {
-                      "enabled": true
-                    }
-                  }
-            },
             "dependsOn": [
                 "[resourceId('Microsoft.KeyVault/vaults', variables('keyVaultName'))]"
             ],
             "properties": {
+                "value": "[parameters('password')]",
                 "attributes": {
                     "enabled": true
                 }
