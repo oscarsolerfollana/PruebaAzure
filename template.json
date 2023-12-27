@@ -7,7 +7,10 @@
             "defaultValue": "mydomain.com"
         },
         "password": {
-            "type": "secureString"
+            "type": "secureString",
+            "metadata": {
+                "description": "Write a password for your API."
+            }
         }
     },
     "variables": {
@@ -112,7 +115,7 @@
         {
             "type": "Microsoft.KeyVault/vaults/secrets",
             "apiVersion": "2023-07-01",
-            "name": "[concat(variables('keyVaultName'), '/password')]",
+            "name": "[concat(variables('keyVaultName'), '/')]",
             "properties": {
                 "value": "[parameters('password')]"
             },
