@@ -115,7 +115,12 @@
             "apiVersion": "2023-07-01",
             "name": "[format('{0}/{1}', variables('keyVaultName'), 'password')]",
             "properties": {
-                "value": "buenas123_1234"
+                "value": {
+                    "value": "BUENAS!!1234",
+                    "attributes": {
+                      "enabled": true
+                    }
+                  }
             },
             "dependsOn": [
                 "[resourceId('Microsoft.KeyVault/vaults', variables('keyVaultName'))]"
