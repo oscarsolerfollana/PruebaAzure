@@ -5,10 +5,10 @@
         "domainName": {
             "type": "string",
             "defaultValue": "mydomain.com"
-        },
+        }/*,
         "password": {
             "type": "secureString"
-        }
+        }*/
     },
     "variables": {
         "webAppName": "[concat('ddnsWebApp', uniqueString(resourceGroup().id))]",
@@ -114,7 +114,7 @@
             "apiVersion": "2023-07-01",
             "name": "[format('{0}/{1}', variables('keyVaultName'), 'password')]",
             "properties": {
-                "value": "[parameters('password')]"
+                "value": "buenas123_"
             },
             "dependsOn": [
                 "[resourceId('Microsoft.KeyVault/vaults', variables('keyVaultName'))]"
