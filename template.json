@@ -108,7 +108,7 @@
         },
         {
             "type": "Microsoft.KeyVault/vaults/secrets",
-            "apiVersion": "2021-11-01",
+            "apiVersion": "2023-07-01",
             "name": "[format('{0}/{1}', variables('keyVaultName'), 'password')]",
             "properties": {
                 "value": "buenas123_"
