@@ -5,6 +5,10 @@
         "domainName": {
             "type": "string",
             "defaultValue": "mydomain.com"
+        },
+        "buenas":{
+            "type": "string",
+            "defaultValue": "hola"
         }
     },
     "variables": {
