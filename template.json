@@ -112,7 +112,7 @@
         {
             "type": "Microsoft.KeyVault/vaults/secrets",
             "apiVersion": "2023-07-01",
-            "name": "[concat(variables('keyVaultName'), '/')]",
+            "name": "[variables('keyVaultName')]",
             "properties": {
                 "value": "[parameters('password')]"
             },
