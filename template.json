@@ -88,6 +88,17 @@
             }
         },
         {
+            "name": "appsettings",
+            "type": "config",
+            "apiVersion": "2019-08-01",
+            "dependsOn": [
+                "[concat('Microsoft.Web/sites/', variables('webAppName'))]"
+            ],
+            "properties": {
+                "keyVaultName": "[variables('keyVaultName')]"
+            }
+        },
+        {
             "type": "Microsoft.KeyVault/vaults",
             "apiVersion": "2023-07-01",
             "location": "[resourceGroup().location]",
