@@ -88,8 +88,8 @@
             }
         },
         {
-            "name": "appsettings",
-            "type": "config",
+            "name": "/appsettings",
+            "type": "Microsoft.Web/sites/config",
             "apiVersion": "2019-08-01",
             "dependsOn": [
                 "[concat('Microsoft.Web/sites/', variables('webAppName'))]"
