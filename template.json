@@ -58,6 +58,19 @@
             },
             "dependsOn": [
               "[resourceId('Microsoft.Web/serverfarms', variables('serverFarmName'))]"
+            ],
+            "resources": [
+                {
+                    "name": "appsettings",
+                    "type": "config",
+                    "apiVersion": "2019-08-01",
+                    "dependsOn": [
+                        "[concat('Microsoft.Web/sites/', variables('webAppName'))]"
+                    ],
+                    "properties": {
+                        "keyVaultName": "[variables('keyVaultName')]"
+                    }
+                }
             ]
         }
         ,
@@ -85,17 +98,6 @@
                 "targetWorkerCount": 0,
                 "targetWorkerSizeId": 0,
                 "zoneRedundant": false
-            }
-        },
-        {
-            "name": "/appsettings",
-            "type": "Microsoft.Web/sites/config",
-            "apiVersion": "2019-08-01",
-            "dependsOn": [
-                "[concat('Microsoft.Web/sites/', variables('webAppName'))]"
-            ],
-            "properties": {
-                "keyVaultName": "[variables('keyVaultName')]"
             }
         },
         {
