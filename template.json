@@ -161,7 +161,7 @@
           "properties": {
             "roleDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/roleDefinitions/acdd72a7-3385-48ef-bd42-f606fba81ae7')]", // ID del rol de Lector de Grupos de Recursos
             "principalId": "[reference(concat('Microsoft.Web/sites', '/', variables('webAppName')), '2023-01-01', 'Full').identity.principalId]",
-            "scope": "[resourceGroup().id]",
+            "scope": "[resourceGroup().id]"
           }
         },
         {
