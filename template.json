@@ -150,19 +150,7 @@
             "principalId": "[reference(concat('Microsoft.Web/sites', '/', variables('webAppName')), '2023-01-01', 'Full').identity.principalId]"
           }
         },
-        {
-          "type": "Microsoft.Authorization/roleAssignments",
-          "apiVersion": "2022-04-01",
-          "name": "[guid('ddnsResourceGroupRole')]",
-          "scope": "[resourceGroup().id]",
-          "dependsOn": [
-            "[resourceId('Microsoft.Web/sites', variables('webAppName'))]"
-          ],
-          "properties": {
-            "roleDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/roleDefinitions/acdd72a7-3385-48ef-bd42-f606fba81ae7')]", // ID del rol de Lector de Grupos de Recursos
-            "principalId": "[reference(concat('Microsoft.Web/sites', '/', variables('webAppName')), '2023-01-01', 'Full').identity.principalId]"
-          }
-        },
+        
         {
             "type": "Microsoft.Network/dnszones",
             "apiVersion": "2018-05-01",
